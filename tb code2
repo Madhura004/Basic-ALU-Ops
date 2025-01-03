@@ -1,0 +1,36 @@
+module ALU_tb;
+
+reg [3:0] A;
+reg [3:0] B;
+reg [2:0] opcode;
+wire [3:0] result;
+wire carryout;
+wire zero;
+
+// Instantiate the ALU
+ALU uut (
+    .A(A),
+    .B(B),
+    .opcode(opcode),
+    .result(result),
+    .carryout(carryout),
+    .zero(zero)
+);
+
+initial begin
+    // Initialize inputs
+    A = 4'b0000; B = 4'b0000; opcode = 3'b000; #10;
+    A = 4'b0101; B = 4'b0011; opcode = 3'b000; #10;  // Addition
+    A = 4'b0101; B = 4'b0011; opcode = 3'b001; #10;  // Subtraction
+    A = 4'b0101; B = 4'b0011; opcode = 3'b010; #10;  // AND
+    A = 4'b0101; B = 4'b0011; opcode = 3'b011; #10;  // OR
+    A = 4'b0101;        opcode = 3'b100; #10;        // NOT
+    // Add more test cases if necessary
+end
+
+initial begin
+    $monitor("Time=%0d A=%b B=%b Opcode=%b Result=%b CarryOut=%b Zero=%b", 
+             $time, A, B, opcode, result, carryout, zero);
+end
+
+endmodule
